@@ -1,4 +1,4 @@
-# _**My Salon**_
+# _**The Shoes**_
 
 #### _An application for shoe stores, 04/07/2017_
 
