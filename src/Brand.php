@@ -80,6 +80,36 @@
       return $results;
     }
 
+    function saveStore($store_id){
+      $executed = $GLOBALS['db']->prepare("INSERT INTO stores_brands (store_id, brand_id) VALUES (:id, {$this->getId()});");
+      $executed->bindParam(':id', $store_id, PDO::PARAM_INT);
+      $executed->execute();
+      if($executed){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    static function findBrandByName($brand){
+      $executed = $GLOBALS['db']->prepare("SELECT * FROM brands WHERE brand = :brand;");
+      $executed->bindParam(':brand', $brand, PDO::PARAM_STR);
+      $executed->execute();
+      $result = $executed->fetch(PDO::FETCH_ASSOC);
+      $new_brand = new Brand($result['brand'], $result['id']);
+      return $new_brand;
+    }
+
+    function delelte(){
+      $executed = $GLOBALS['db']->exec("DELETE FROM brands WHERE id = {$this->getId()};");
+      $executed = $GLOBALS['db']->exec("DELETE FROM stores_brands WHERE brand_id = {$this->getId()};");
+      if($executed){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
   }
 
 ?>

@@ -12,6 +12,12 @@
     <li><a href="/brand/{{ brand.getId }}">{{ brand.getBrand }}</a></li>
   {% endfor %}
 
+  <form action="/deletebrand" method="post">
+    <label for="brand">Enter the brand that you want to delete:</label>
+    <input type="text" name="brand">
+    <button type="submit" class="button bg-danger">Delete</button>
+  </form>
+
   <a href="/">Home</a>
 
 {% include 'footer.html.twig' %}

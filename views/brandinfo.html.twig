@@ -4,15 +4,22 @@
 
 <h4>Add A Store:</h4>
 
+{% if checkstores is not empty %}
 <form action="/brandaddstore" method="post">
   <input type="hidden" name="brand_id" value="{{ brand.id }}">
-  
 
-  <button type="submit">Submit</button>
+
+  {% for checkstore in checkstores %}
+    <input type="checkbox" name="store_id[]" value="{{ checkstore.getId }}">{{ checkstore.getStore }}<br>
+  {% endfor %}
+  <button type="submit">Add</button>
 </form>
-
+{% else %}
+  <p>You have no store to add..</p>
+{% endif %}
 
 {% if stores is not empty %}
+  <h4>The stores sell {{ brand.brand }}</h4>
   {% for store in stores %}
     <li><a href="/result/{{ store.id }}">{{ store.store }}</a></li>
   {% endfor %}
@@ -20,6 +27,6 @@
   <p>Nobody sells {{ brand.brand }}...</p>
 {% endif %}
 
-<a href="/">Home</a>
+<a href="/"><button class="btn bg-primary">Home</button></a>
 
 {% include 'footer.html.twig' %}

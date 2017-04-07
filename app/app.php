@@ -77,24 +77,67 @@
   });
 
   $app->post("/addbrands", function () use ($app) {
-    $store = Store::find($_POST['store_id']);
-    $brand_id_array = $_POST['brand_id'];
-    foreach($brand_id_array as $brand_id){
-      $store->saveBrand($brand_id);
+    if(!empty($_POST['brand_id'])){
+      $store = Store::find($_POST['store_id']);
+      $brand_id_array = $_POST['brand_id'];
+      foreach($brand_id_array as $brand_id){
+        $store->saveBrand($brand_id);
+      }
+      $brands = Brand::getBrands($_POST['store_id']);
+      return $app['twig']->render('result.html.twig', array('store'=>$store, 'brands'=>$brands));
+    } else {
+      return $app['twig']->render('warning.html.twig');
     }
-    $brands = Brand::getBrands($_POST['store_id']);
-    return $app['twig']->render('result.html.twig', array('store'=>$store, 'brands'=>$brands));
   });
 
   $app->get("/brand/{id}", function ($id) use ($app) {
     $brand = Brand::find($id);
     $stores = $brand->findStores();
-    
-    return $app['twig']->render('brandinfo.html.twig', array('brand'=>$brand, 'stores'=>$stores));
+    $all_stores = Store::getAll();
+    foreach($stores as $store){
+      foreach($all_stores as $key=>$value){
+        if($store['store'] == $value->getStore()){
+          array_splice($all_stores, $key, 1);
+        }
+      }
+    }
+    return $app['twig']->render('brandinfo.html.twig', array('brand'=>$brand, 'stores'=>$stores, 'checkstores'=>$all_stores));
   });
 
   $app->get("/result/{id}", function ($id) use ($app) {
     return $app['twig']->render('result.html.twig', array('store'=>Store::find($id), 'brands'=>Brand::getBrands($id)));
+  });
+
+  $app->post("/brandaddstore", function () use ($app) {
+    if(!empty($_POST['store_id'])){
+      $store_id_array = $_POST['store_id'];
+      $brand = Brand::find($_POST['brand_id']);
+      foreach($store_id_array as $store_id){
+        $brand->saveStore($store_id);
+      }
+      $stores = $brand->findStores();
+      $all_stores = Store::getAll();
+      foreach($stores as $store){
+        foreach($all_stores as $key=>$value){
+          if($store['store'] == $value->getStore()){
+            array_splice($all_stores, $key, 1);
+          }
+        }
+      }
+      return $app['twig']->render('brandinfo.html.twig', array('brand'=>$brand, 'stores'=>$brand->findStores(), 'checkstores'=>$all_stores));
+    } else {
+      return $app['twig']->render('warning.html.twig');
+    }
+  });
+
+  $app->post("/deletebrand", function () use ($app) {
+    if(!empty($_POST['brand'])){
+      $brand = Brand::findBrandByName($_POST['brand']);
+      $brand->delelte();
+      return $app['twig']->render('brands.html.twig', array('brands'=>Brand::getAll()));
+    } else {
+      return $app['twig']->render('warning.html.twig');
+    }
   });
 
   return $app;
