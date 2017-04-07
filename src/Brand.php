@@ -103,11 +103,15 @@
     function delelte(){
       $executed = $GLOBALS['db']->exec("DELETE FROM brands WHERE id = {$this->getId()};");
       $executed = $GLOBALS['db']->exec("DELETE FROM stores_brands WHERE brand_id = {$this->getId()};");
-      if($executed){
-        return true;
-      } else {
+      if(!$executed){
         return false;
+      } else {
+        return true;
       }
+    }
+
+    Static function deleteAll(){
+        $executed = $GLOBALS['db']->exec("DELETE FROM brands;");
     }
 
   }

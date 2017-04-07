@@ -61,8 +61,8 @@
       }
     }
 
-
-
-
+    Static function deleteAll(){
+        $executed = $GLOBALS['db']->exec("DELETE FROM stores;");
+    }
   }
 ?>
