@@ -41,11 +41,39 @@
     }
 
     function testBrandNames(){
-      
+      $name = "Nike";
+      $name1 = "Puma";
+      $new_brand = new Brand($name);
+      $new_brand1 = new Brand($name1);
+      $new_brand->save();
+      $new_brand1->save();
+      $result = Brand::brandNames();
+      $this->assertEquals(['Nike', 'Puma'], $result);
     }
 
+    function testFindById(){
+      $name = "Nike";
+      $new_brand = new Brand($name);
+      $new_brand->save();
+      $result = Brand::find($new_brand->getId());
+      $this->assertEquals($new_brand,$result);
+    }
 
+    function testFindByName(){
+      $name = "Nike";
+      $new_brand = new Brand($name);
+      $new_brand->save();
+      $result = Brand::findBrandByName($name);
+      $this->assertEquals($new_brand,$result);
+    }
 
+    function testDelete(){
+      $name = "Nike";
+      $new_brand = new Brand($name);
+      $new_brand->save();
+      $result = $new_brand->delete();
+      $this->assertEquals('', $result);
+    }
 
   }
 

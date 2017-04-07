@@ -133,7 +133,7 @@
   $app->post("/deletebrand", function () use ($app) {
     if(!empty($_POST['brand'])){
       $brand = Brand::findBrandByName($_POST['brand']);
-      $brand->delelte();
+      $brand->delete();
       return $app['twig']->render('brands.html.twig', array('brands'=>Brand::getAll()));
     } else {
       return $app['twig']->render('warning.html.twig');

@@ -40,6 +40,14 @@
       $this->assertEquals([$new_store, $new_store1], $result);
     }
 
+    function testFindById(){
+      $name = "Store";
+      $new_store = new Store($name);
+      $new_store->save();
+      $result = Store::find($new_store->getId());
+      $this->assertEquals($new_store,$result);
+    }
+
 
 
   }

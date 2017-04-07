@@ -7,3 +7,13 @@ body .jumbotron h1{
 .jumbotron {
   background-color: pink;
 }
+
+body {
+  background-color: grey;
+}
+
+a {
+  font-size: 15px;
+  color: gold;
+  text-decoration: underline;
+}
