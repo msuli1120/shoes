@@ -63,8 +63,18 @@
       }
     }
 
-    Static function deleteAll(){
+    static function deleteAll(){
         $executed = $GLOBALS['db']->exec("DELETE FROM stores;");
+    }
+
+    static function getStoreNames(){
+      $store_name_array = array();
+      $executed = $GLOBALS['db']->query("SELECT * FROM stores;");
+      $results = $executed->fetchAll(PDO::FETCH_ASSOC);
+      foreach($results as $result){
+        array_push($store_name_array, $result['store']);
+      }
+      return $store_name_array;
     }
   }
 ?>

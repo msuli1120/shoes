@@ -37,9 +37,14 @@
 
   $app->post("/addstore", function () use ($app) {
     if(!empty($_POST['store'])){
-      $new_store = new Store($_POST['store']);
-      $new_store->save($new_store->getStore());
-      return $app['twig']->render('stores.html.twig', array('stores'=>Store::getAll()));
+      $store_name_array = Store::getStoreNames();
+      if(in_array($_POST['store'], $store_name_array)){
+        return $app['twig']->render('existed.html.twig');
+      } else {
+        $new_store = new Store($_POST['store']);
+        $new_store->save($new_store->getStore());
+        return $app['twig']->render('stores.html.twig', array('stores'=>Store::getAll()));
+      }
     } else {
       return $app['twig']->render('warning.html.twig');
     }
