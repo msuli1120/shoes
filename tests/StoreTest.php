@@ -25,7 +25,7 @@
     function testSave () {
       $name = "Store1";
       $new_store = new Store($name);
-      $result = $new_store->save();
+      $result = $new_store->save($name);
       $this->assertTrue($result, "Fail");
     }
 
@@ -34,8 +34,8 @@
       $name1 = "Puma";
       $new_store = new Store($name);
       $new_store1 = new Store($name1);
-      $new_store->save();
-      $new_store1->save();
+      $new_store->save($name);
+      $new_store1->save($name1);
       $result = Store::getAll();
       $this->assertEquals([$new_store, $new_store1], $result);
     }
@@ -43,7 +43,7 @@
     function testFindById(){
       $name = "Store";
       $new_store = new Store($name);
-      $new_store->save();
+      $new_store->save($name);
       $result = Store::find($new_store->getId());
       $this->assertEquals($new_store,$result);
     }
