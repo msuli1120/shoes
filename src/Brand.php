@@ -21,8 +21,10 @@
       return $this->brand;
     }
 
-    function save(){
-      $executed = $GLOBALS['db']->exec("INSERT INTO brands (brand) VALUES ('{$this->getBrand()}');");
+    function save($brand){
+      $executed = $GLOBALS['db']->prepare("INSERT INTO brands (brand) VALUES (:brand);");
+      $executed->bindParam(':brand', $brand, PDO::PARAM_STR);
+      $executed->execute();
       if($executed){
         $this->id = $GLOBALS['db']->lastInsertId();
         return true;

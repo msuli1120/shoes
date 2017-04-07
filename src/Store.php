@@ -20,8 +20,10 @@
       return $this->store;
     }
 
-    function save(){
-      $executed = $GLOBALS['db']->exec("INSERT INTO stores (store) VALUES ('{$this->getStore()}');");
+    function save($store){
+      $executed = $GLOBALS['db']->prepare("INSERT INTO stores (store) VALUES (:store);");
+      $executed->bindParam(':store', $store, PDO::PARAM_STR);
+      $executed->execute();
       if($executed){
         $this->id = $GLOBALS['db']->lastInsertId();
         return true;
