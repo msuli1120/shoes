@@ -1,0 +1,17 @@
+{% include 'header.html.twig' %}
+
+  <h2>Add A Brand</h2>
+
+  <form action="/addbrand" method="post">
+    <label for="brand">Enter the name:</label>
+    <input type="text" name="brand">
+    <button type="submit">Add</button>
+  </form>
+
+  {% for brand in brands %}
+    <li><a href="/brand/{{ brand.getId }}">{{ brand.getBrand }}</a></li>
+  {% endfor %}
+
+  <a href="/">Home</a>
+
+{% include 'footer.html.twig' %}

@@ -1,0 +1,25 @@
+{% include 'header.html.twig' %}
+
+<h2>Welcom to {{ brand.brand }} brand</h2>
+
+<h4>Add A Store:</h4>
+
+<form action="/brandaddstore" method="post">
+  <input type="hidden" name="brand_id" value="{{ brand.id }}">
+  
+
+  <button type="submit">Submit</button>
+</form>
+
+
+{% if stores is not empty %}
+  {% for store in stores %}
+    <li><a href="/result/{{ store.id }}">{{ store.store }}</a></li>
+  {% endfor %}
+  {% else %}
+  <p>Nobody sells {{ brand.brand }}...</p>
+{% endif %}
+
+<a href="/">Home</a>
+
+{% include 'footer.html.twig' %}

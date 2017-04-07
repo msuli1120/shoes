@@ -1,0 +1,19 @@
+{% include 'header.html.twig' %}
+
+<h2>Add A Store</h2>
+
+<form action="/addstore" method="post">
+  <label for="store">Enter A Name:</label>
+  <input type="text" name="store">
+  <button type="submit">Submit</button>
+</form>
+
+{% for store in stores %}
+
+  <li><a href="/store/{{ store.getId }}">{{ store.getStore }}</a></li>
+
+{% endfor %}
+
+<a href="/">Home</a>
+
+{% include 'footer.html.twig' %}

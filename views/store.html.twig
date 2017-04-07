@@ -1,0 +1,30 @@
+{% include 'header.html.twig' %}
+
+<h2>Add A brand for <strong>{{ store.getStore }}</strong></h2>
+
+{% if brands is not empty %}
+  <form action="/addbrands" method="post">
+    <input type="hidden" name="store_id" value="{{ store.getId }}">
+
+    {% for brand in brands %}
+      <input type="checkbox" name="brand_id[]" value="{{ brand.getId }}">{{ brand.getBrand }}<br>
+    {% endfor %}
+
+    <button type="submit">Add</button>
+  </form>
+{% else %}
+  <p>You have added all brands.</p>
+{% endif %}
+
+{% if storebrands is not empty %}
+  <h2>All brands in {{ store.getStore }}</h2>
+  <ol>
+    {% for storebrand in storebrands %}
+      <li><a href="/brand/{{ storebrand.getId }}">{{ storebrand.getBrand }}</a></li>
+    {% endfor %}
+  </ol>
+{% endif %}
+
+<a href="/">Home</a>
+
+{% include 'footer.html.twig' %}
